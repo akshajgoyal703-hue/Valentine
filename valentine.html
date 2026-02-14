@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Valentine's Week For Sonal ❤️</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&family=Poppins:wght@300;400&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+
+body{
+font-family:'Poppins',sans-serif;
+background: radial-gradient(circle at top,#1a0000,#000000);
+color:white;
+text-align:center;
+overflow-x:hidden;
+}
+
+h1{
+margin-top:40px;
+font-size:3rem;
+color:#ff4d6d;
+font-family:'Playfair Display',serif;
+}
+
+.subtitle{margin:10px;opacity:0.8;}
+
+.timeline{
+display:flex;
+flex-direction:column;
+align-items:center;
+margin-top:30px;
+}
+
+.day{
+opacity:0;
+transform:translateY(20px);
+background:#1a0000;
+border:2px solid #ff4d6d;
+padding:15px 30px;
+margin:12px;
+width:260px;
+border-radius:30px;
+cursor:pointer;
+transition:0.6s;
+box-shadow:0 0 15px #ff1e56;
+pointer-events:none;
+}
+
+.day.show{
+opacity:1;
+transform:translateY(0);
+pointer-events:auto;
+}
+
+.day:hover{
+transform:scale(1.1);
+background:#330000;
+}
+
+.final{background:#ff1e56;}
+
+.hidden{display:none;}
+
+.popup{
+position:fixed;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+background:#1a0000;
+padding:30px;
+border:2px solid #ff4d6d;
+border-radius:20px;
+box-shadow:0 0 25px #ff4d6d;
+width:80%;
+max-width:400px;
+animation:fadeIn 0.6s ease;
+}
+
+@keyframes fadeIn{
+from{opacity:0;transform:translate(-50%,-60%);}
+to{opacity:1;transform:translate(-50%,-50%);}
+}
+
+button{
+padding:12px 25px;
+margin:15px;
+border:none;
+border-radius:30px;
+background:#ff1e56;
+color:white;
+cursor:pointer;
+transition:0.3s;
+}
+
+button:hover{
+background:#ff4d6d;
+transform:scale(1.1);
+}
+
+.heart{
+position:fixed;
+bottom:-10px;
+color:red;
+animation:float 6s linear infinite;
+}
+
+@keyframes float{
+0%{transform:translateY(0);}
+100%{transform:translateY(-100vh);}
+}
+
+input[type=range]{width:60%;margin-top:10px;}
+
+#videoSection{
+display:none;
+margin-top:30px;
+animation:fadeIn 1.5s ease;
+}
+
+video{
+width:80%;
+max-width:600px;
+border-radius:20px;
+box-shadow:0 0 20px #ff4d6d;
+}
+
+#noBtn{
+position:relative;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- Background Music -->
+<audio id="bgMusic" loop>
+<source src="background.mp3" type="audio/mpeg">
+</audio>
+
+<h1>Valentine’s Week With Sonal ❤️</h1>
+<p class="subtitle">75 beautiful days with you...</p>
+
+<div class="timeline">
+<div class="day">🌹 Rose Day</div>
+<div class="day">💍 Propose Day</div>
+<div class="day">🍫 Chocolate Day</div>
+<div class="day">🧸 Teddy Day</div>
+<div class="day">🤝 Promise Day</div>
+<div class="day">🤗 Hug Day</div>
+<div class="day">💋 Kiss Day</div>
+<div class="day final">❤️ Valentine’s Day</div>
+</div>
+
+<div id="messageBox" class="popup hidden">
+<h2 id="dayTitle"></h2>
+<p id="dayMessage"></p>
+<button onclick="closeBox()">Close</button>
+</div>
+
+<div>
+<h2>How much do you love me Sonal? 😏</h2>
+<input type="range" min="0" max="100" value="50" oninput="showLove(this.value)">
+<p id="loveValue">50%</p>
+</div>
+
+<div>
+<h2>Days Since I Fell For You ⏳</h2>
+<p>75 Days ❤️</p>
+</div>
+
+<div id="videoSection">
+<h2>This is for you Sonal ❤️</h2>
+<video id="loveVideo" controls>
+<source src="sonal.mp4" type="video/mp4">
+</video>
+</div>
+
+<div>
+<h2>Sonal... Will You Be Mine Forever? 💍</h2>
+<button onclick="yesAnswer()">YES ❤️</button>
+<button id="noBtn" onmouseover="moveNo()">NO 😜</button>
+</div>
+
+<script>
+
+/* Elements */
+const bgMusic = document.getElementById("bgMusic");
+const loveVideo = document.getElementById("loveVideo");
+
+/* Start music after first interaction (browser rule) */
+document.addEventListener("click", function(){
+bgMusic.play();
+}, { once:true });
+
+/* Floating Hearts */
+setInterval(()=>{
+let heart=document.createElement("div");
+heart.classList.add("heart");
+heart.innerHTML="❤️";
+heart.style.left=Math.random()*100+"vw";
+heart.style.fontSize=Math.random()*20+10+"px";
+document.body.appendChild(heart);
+setTimeout(()=>heart.remove(),6000);
+},300);
+
+/* Sequential Reveal */
+const days=document.querySelectorAll(".day");
+
+days.forEach((day,index)=>{
+setTimeout(()=>{
+day.classList.add("show");
+day.onclick=()=>openDay(index);
+},1200*index);
+});
+
+const titles=[
+"🌹 Rose Day","💍 Propose Day","🍫 Chocolate Day","🧸 Teddy Day",
+"🤝 Promise Day","🤗 Hug Day","💋 Kiss Day","❤️ Valentine’s Day"
+];
+
+const messages=[
+"Sonal, you are the most beautiful rose in my life.",
+"I choose you today, tomorrow, and forever Sonal.",
+"You make my life sweeter than chocolate.",
+"I wish I could hug you forever.",
+"I promise to love you endlessly.",
+"Your hugs feel like home.",
+"One kiss from you is magic.",
+"Happy Valentine’s Day Sonal ❤️ You are my forever."
+];
+
+function openDay(index){
+document.getElementById("dayTitle").innerText=titles[index];
+document.getElementById("dayMessage").innerText=messages[index];
+document.getElementById("messageBox").classList.remove("hidden");
+
+if(index===7){fireworks();}
+}
+
+function closeBox(){
+document.getElementById("messageBox").classList.add("hidden");
+}
+
+/* Fireworks */
+function fireworks(){
+for(let i=0;i<60;i++){
+let spark=document.createElement("div");
+spark.innerHTML="✨";
+spark.style.position="fixed";
+spark.style.left=Math.random()*100+"vw";
+spark.style.top=Math.random()*100+"vh";
+spark.style.fontSize="20px";
+document.body.appendChild(spark);
+setTimeout(()=>spark.remove(),2000);
+}
+}
+
+/* Love Slider */
+function showLove(value){
+document.getElementById("loveValue").innerText=value+"%";
+
+if(value==100){
+document.getElementById("videoSection").style.display="block";
+loveVideo.play();
+
+/* Smoothly dim music */
+let fadeOut=setInterval(()=>{
+if(bgMusic.volume>0.2){
+bgMusic.volume-=0.05;
+}else{
+clearInterval(fadeOut);
+}
+},200);
+
+fireworks();
+}
+}
+
+/* Restore music after video ends */
+loveVideo.addEventListener("ended",()=>{
+let fadeIn=setInterval(()=>{
+if(bgMusic.volume<1){
+bgMusic.volume+=0.05;
+}else{
+clearInterval(fadeIn);
+}
+},200);
+});
+
+/* Proposal */
+function yesAnswer(){
+alert("You just made me the happiest person alive Sonal ❤️");
+fireworks();
+}
+
+function moveNo(){
+let btn=document.getElementById("noBtn");
+btn.style.position="absolute";
+btn.style.left=Math.random()*80+"%";
+btn.style.top=Math.random()*80+"%";
+}
+
+</script>
+
+</body>
+</html>
